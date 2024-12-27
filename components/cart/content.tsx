@@ -2,15 +2,20 @@
 
 import { SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
 import { EmptyCart } from "./empty-cart";
+import { CartItemType } from "./hooks/types/state-type";
 import { ListItemsCart } from "./list-items";
 
 interface ContentCartProps {
     qntItems: number
     fee: number
+    total: number
+    items: CartItemType[]
 }
 export function ContentCart({
     qntItems,
-    fee
+    fee,
+    total,
+    items
 }: ContentCartProps) {
     const isEmpty = qntItems <= 0
     const CartContent = isEmpty ? EmptyCart : ListItemsCart
@@ -22,7 +27,7 @@ export function ContentCart({
                     Cart({qntItems})
                 </SheetTitle>
             </SheetHeader>
-            <CartContent fee={fee} />
+            <CartContent items={items} total={total} fee={fee} />
         </SheetContent>
     )
 }

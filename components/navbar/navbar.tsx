@@ -4,16 +4,20 @@ import { MaxWidthWrapper } from "../max-width-wrapper";
 import { NavItems } from "./navitems";
 import { NavbarUserLoggedOut } from "./navbar-user-logged-out";
 import { Cart } from "../cart";
+import { getServerSideUser } from "@/lib/payload-utils";
+import { cookies } from "next/headers";
+import { NavbarUserLoggedIn } from "./navbar-user-logged-in";
 
 interface NavbarProps {
 
 }
-export function Navbar(props: NavbarProps) {
-    const user = null
+export async function Navbar(props: NavbarProps) {
+    const nextCookies = cookies()
+    const { user } = await getServerSideUser(nextCookies)
 
     return (
         <div className="sticky top-0 z-50 h-16 bg-white">
-            <header className="relative">
+            <header className="relative bg-white">
                 <MaxWidthWrapper>
                     <div className="border-b border-gray-200">
                         <div className="flex items-center">
@@ -27,7 +31,7 @@ export function Navbar(props: NavbarProps) {
                             </div>
                             <div className="ml-auto lg:items-center hidden lg:flex lg:space-x-6">
                                 {
-                                    user ? null : <NavbarUserLoggedOut />
+                                    user ? <NavbarUserLoggedIn user={user} /> : <NavbarUserLoggedOut />
                                 }
                                 <Cart />
                             </div>
